@@ -1,0 +1,60 @@
+model:
+  name: "MSHANetwork"
+  backbone: "efficientnet_b4"
+  num_classes: 5
+  dropout_rate: 0.3
+  attention_dim: 256
+  uncertainty_estimation: true
+
+training:
+  batch_size: 12
+  num_epochs: 100
+  learning_rate: 1e-4
+  weight_decay: 1e-5
+  gradient_clip_val: 1.0
+  early_stopping_patience: 15
+  reduce_lr_patience: 8
+  
+optimizer:
+  name: "AdamW"
+  betas: [0.9, 0.999]
+  eps: 1e-8
+  
+scheduler:
+  name: "CosineAnnealingWarmRestarts"
+  T_0: 10
+  T_mult: 2
+  eta_min: 1e-6
+
+loss:
+  focal_alpha: [1.0, 10.5, 5.9, 37.2, 40.6]
+  focal_gamma: 2.0
+  uncertainty_weight: 0.1
+  label_smoothing: 0.1
+
+data:
+  image_size: 256 
+  train_split: 0.8
+  val_split: 0.2
+  num_workers: 8
+  pin_memory: true
+  prefetch_factor: 2
+
+augmentation:
+  horizontal_flip: 0.5
+  vertical_flip: 0.5
+  rotation: 15
+  brightness: 0.2
+  contrast: 0.2
+  saturation: 0.2
+  hue: 0.1
+  gaussian_blur: 0.1
+  cutout_prob: 0.2
+  cutout_size: 64
+
+paths:
+  dataset_root: "dataset"
+  images_dir: "dataset/Images"
+  labels_file: "dataset/all_labels.csv"
+  checkpoints_dir: "checkpoints"
+  logs_dir: "logs"

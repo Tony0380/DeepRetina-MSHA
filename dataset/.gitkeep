@@ -1,0 +1,5 @@
+# This directory should contain the EyePACS dataset
+# Structure:
+# dataset/
+# ├── Images/           # Retinal fundus images (*.png)
+# └── all_labels.csv    # Labels file with columns: image, level
